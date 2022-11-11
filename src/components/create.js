@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import React from "react";
+import axios from "axios";
 
 export class Create extends React.Component{
     constructor(){
@@ -21,11 +22,22 @@ export class Create extends React.Component{
         console.log(`${this.state.title},
         ${this.state.cover}, 
         ${this.state.author}`)
+        
+        const book = {
+            title:this.state.title,
+            cover:this.state.cover,
+            author:this.state.author
+        }
+        //pass a URL to axios
+        axios.post('http://localhost:4000/api/books', book)
+        .then()
+        .catch();
     }
     onChangeBookTitle(e){
         this.setState({
             title:e.target.value
         })
+        
     }
     onChangeBookAuthor(e){
         this.setState({

@@ -6,11 +6,9 @@ export class Read extends React.Component{
 
     /* reads in data from URL   */
     componentDidMount() {
-        axios.get('https://jsonblob.com/api/jsonblob/1027219693823606784')
+        axios.get('http://localhost:4000/api/books')
         .then((response)=> {
-            this.setState({
-                books:response.data
-            })
+            this.setState({books:response.data.myBooks})
         })
         .catch((error)=>{
             console.log(error);/*log errors to console*/
