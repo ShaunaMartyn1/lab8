@@ -8,10 +8,10 @@ export class Read extends React.Component{
     componentDidMount() {
         axios.get('http://localhost:4000/api/books')
         .then((response)=> {
-            this.setState({books:response.data.myBooks})
+            this.setState({books:response.data})//took out myBookd
         })
         .catch((error)=>{
-            console.log(error);/*log errors to console*/
+            console.log(error);//log errors to console
         });
     }
     /* Empty array of books  */

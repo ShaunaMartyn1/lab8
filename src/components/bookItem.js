@@ -12,9 +12,9 @@ export class BookItem extends React.Component{
             <Card.Header >{this.props.book.title}</Card.Header>
       <Card.Body>
       
-        <img src = {this.props.book.thumbnailUrl}></img>
+        <img src = {this.props.book.cover}></img>
         <footer>
-            {this.props.book.authors[0]}  
+            {this.props.book.author}  
         </footer>      
       </Card.Body>
     </Card>

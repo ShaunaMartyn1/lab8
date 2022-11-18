@@ -19,55 +19,63 @@ res.header("Access-Control-Allow-Headers",
 next();
 });
 
+// getting-started.js
+const mongoose = require('mongoose');
+
+main().catch(err => console.log(err));
+//connect to mongo database
+async function main() {
+  await mongoose.connect('mongodb+srv://admin:admin@cluster0.prho57d.mongodb.net/?retryWrites=true&w=majority');
+  
+  // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
+
+//mongodb+srv://shaunamartyn1:<password>@cluster0.prho57d.mongodb.net/?retryWrites=true&w=majority
+}//
+const bookSchema = new mongoose.Schema({
+  title: String,
+  cover: String,
+  author: String
+
+});
+//"Books" name of folder its being written to 
+const bookModel = mongoose.model('Books', bookSchema);
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
 app.post('/api/books', (req,res)=>{
-    console.log(req.body);
+    console.log(req.body);//logs books to console
+    //create a record for title, cover, author 
+    bookModel.create({
+      title:req.body.title, 
+      cover:req.body.cover,
+      author:req.body.author
+    })
     res.send('Data Recieved');
 })
 
+//takes in json data - instead of hardcoded books array 
 app.get('/api/books', (req, res)=>{
-    const books = [
-        {
-        "title": "Learn Git in a Month of Lunches",
-        "isbn": "1617292419",
-        "pageCount": 0,
-        "thumbnailUrl":"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/umali.jpg", "status": "MEAP",
-        "authors": ["Rick Umali"],
-        "categories": []
-        },
-        {
-        "title": "MongoDB in Action, Second Edition",
-        "isbn": "1617291609",
-        "pageCount": 0,
-        "thumbnailUrl":"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/banker2.jpg",
-        "status": "MEAP",
-        "authors": [
-        "Kyle Banker",
-        "Peter Bakkum",
-        "Tim Hawkins",
-        "Shaun Verch",
-        "Douglas Garrett"
-        ],
-        "categories": []
-        },
-        {
-        "title": "Getting MEAN with Mongo, Express, Angular, and Node",
-        "isbn": "1617292036",
-        "pageCount": 0,
-        "thumbnailUrl":"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/sholmes.jpg",
-        "status": "MEAP",
-        "authors": ["Simon Holmes"],
-        "categories": []
-        }
-        ]
-    //show books array and message from server
+  bookModel.find((error, data) => {
+    res.json(data);
+  })
+})
+        
+   /* //show books array and message from server
     res.json({
         myBooks: books,
         message:'Hello from the server'
     })
+})*/
+
+//id is a parameter
+app.get('/api/book:id', (req, res)=>{
+  console.log(req.params.id);
+  bookModel.findById(req.params.id, (error, data)=>{
+    res.json(data);
+  });//callback function
+  res.send('data');
 })
 
 app.listen(port, () => {
